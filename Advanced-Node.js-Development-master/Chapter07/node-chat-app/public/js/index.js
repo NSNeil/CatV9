@@ -10,10 +10,18 @@ function scrollToBottom () {
   var scrollHeight = messages.prop('scrollHeight');
   var newMessageHeight = newMessage.innerHeight();
   var lastMessageHeight = newMessage.prev().innerHeight();
-
-  if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
-    messages.scrollTop(scrollHeight);
-   }
+  // console.log("clientHeight: ",clientHeight);
+  // console.log("scrollTop: ",scrollTop);
+  // console.log("scrollHeight: ",scrollHeight);
+  // console.log("newMessageHeight: ",newMessageHeight);
+  // console.log("lastMessageHeight: ",lastMessageHeight);
+  // if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+  //   messages.scrollTop(scrollHeight);
+  //  }
+    //56.44 is the height of the input bar
+    if(scrollHeight >= scrollTop + clientHeight){
+        messages.scrollTop(56.44 + scrollHeight + lastMessageHeight);
+    }
 }
 
 socket.on('connect', () => {
@@ -32,7 +40,6 @@ socket.on('newMessage', function (message) {
     from: message.from,
     createdAt: formattedTime
   });
-
   jQuery('#messages').append(html);
   scrollToBottom();
 });
@@ -52,6 +59,8 @@ socket.on('newLocationMessage', function (message) {
 
 jQuery('#message-form').on('submit', function (e){
   e.preventDefault();
+  // console.log("1");
+  // console.log(Date.now());
 
   var messageTextbox = jQuery('[name=message]');
 
@@ -59,7 +68,10 @@ jQuery('#message-form').on('submit', function (e){
     from: 'User',
     text: messageTextbox.val()
   }, function (){
-    messageTextbox.val('')
+    // console.log("2");
+    // console.log(Date.now());
+
+      messageTextbox.val('')
   });
 });
 
